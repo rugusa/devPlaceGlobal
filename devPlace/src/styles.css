@@ -1,0 +1,313 @@
+/* Reset de estilos */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilo global */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #4c4d4e !important;
+  color: #333;
+}
+
+/* Barra de navegación */
+nav {
+  background-color: #fff;
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  border-radius: 30px;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul li {
+  margin: 0 15px;
+}
+
+nav ul li a {
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 30px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+nav ul li a:hover {
+  background-color: #007bff;
+  color: white;
+  transform: translateY(-2px); /* Efecto de desplazamiento */
+}
+
+/* Contenedor de los botones */
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 80px;
+}
+
+/* Estilo base para los botones */
+button {
+  padding: 12px 30px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 2px solid transparent;
+  border-radius: 30px;
+  cursor: pointer;
+  background-color: transparent;
+  color: #333;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+  text-transform: uppercase;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+/* Estilo del botón Home */
+.btn-home {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.btn-home:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+/* Estilo del botón Login */
+.btn-login {
+  border-color: #28a745;
+  color: #28a745;
+}
+
+.btn-login:hover {
+  background-color: #28a745;
+  color: white;
+}
+
+/* Estilo del botón Register */
+.btn-register {
+  border-color: #ffc107;
+  color: #ffc107;
+}
+
+.btn-register:hover {
+  background-color: #ffc107;
+  color: white;
+}
+
+/* Estilo del botón Scripts */
+.btn-scripts {
+  border-color: #ff0707;
+  color: #ff0707;
+}
+
+.btn-scripts:hover {
+  background-color: #ff0707;
+  color: white;
+}
+
+/* Contenedor de los scripts */
+.scripts-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 20px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+/* Estilo para cada tarjeta */
+.script-card {
+  background: linear-gradient(to right, #007bff, #6610f2);
+  border-radius: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 280px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto al pasar el ratón sobre la tarjeta */
+.script-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para el título de la tarjeta */
+.script-card h3 {
+  font-size: 1.2rem;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+/* Estilo para la descripción del recurso */
+.script-card p {
+  font-size: 0.95rem;
+  color: #ffffff;
+  margin-bottom: 15px;
+  height: 60px; /* Limita la altura de la descripción */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Estilo para el precio o texto "Gratis" */
+.script-card span {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 15px;
+  display: block;
+}
+
+/* Estilo para el botón "Descargar" */
+.btn-download {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+/* Estilo para el botón "Comprar" */
+.btn-buy {
+  background-color: #ffa407;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+/* Efecto hover en los botones */
+.btn-download:hover {
+  background-color: #25e000;
+}
+
+.btn-buy:hover {
+  background-color: #25e000;
+}
+footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 0.9rem;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  border-top: 4px solid #007bff;
+}
+.btn-primary {
+  background-color: #07ffb5;
+  color: rgb(0, 0, 0);
+  padding: 12px 30px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #06cc97;
+  transform: translateY(-2px);
+}
+/* Estilo general para el contenedor del login */
+.container {
+  max-width: 400px; /* Limitar el ancho del formulario */
+  margin: 60px auto; /* Centrar el formulario verticalmente en la página */
+  padding: 30px;
+  background-color: #fff; /* Fondo blanco */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+}
+
+h2 {
+  text-align: center; /* Centrar el título */
+  margin-bottom: 20px; /* Espaciado debajo del título */
+  font-size: 2rem; /* Tamaño del título */
+  color: #007bff; /* Color azul */
+}
+
+.form-group {
+  margin-bottom: 20px; /* Espaciado entre los campos del formulario */
+}
+
+label {
+  font-size: 1rem; /* Tamaño de fuente de las etiquetas */
+  color: #333; /* Color de texto gris oscuro */
+}
+
+.form-control {
+  width: 100%; /* Asegurarse de que los campos ocupen todo el ancho */
+  padding: 10px; /* Espaciado interno */
+  margin-top: 8px; /* Espaciado encima de los campos */
+  border: 1px solid #ccc; /* Borde sutil */
+  border-radius: 5px; /* Bordes redondeados */
+  font-size: 1rem; /* Tamaño de fuente en los campos */
+  transition: border-color 0.3s ease; /* Transición suave cuando se enfoca el campo */
+}
+
+/* Efecto de foco en los campos de texto */
+.form-control:focus {
+  border-color: #007bff; /* Color de borde azul al enfocar */
+  outline: none; /* Eliminar el borde de enfoque por defecto */
+}
+
+button {
+  width: 100%; /* Hacer que el botón ocupe todo el ancho del formulario */
+  padding: 12px; /* Espaciado interno del botón */
+  background-color: #007bff; /* Color de fondo azul */
+  color: white; /* Color de texto blanco */
+  font-size: 1.1rem; /* Tamaño de fuente del botón */
+  border: none; /* Eliminar borde */
+  border-radius: 5px; /* Bordes redondeados en el botón */
+  cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+  transition: background-color 0.3s ease; /* Transición suave al pasar el ratón */
+}
+
+/* Efecto de hover en el botón */
+button:hover {
+  background-color: #0056b3; /* Color de fondo azul más oscuro al pasar el ratón */
+}
+
+#error-message {
+  text-align: center;
+  font-size: 0.9rem; /* Tamaño de fuente pequeño para el mensaje de error */
+  color: #dc3545; /* Color de texto rojo */
+  display: none; /* Iniciar oculto */
+  margin-top: 15px;
+}
+
+/* Responsividad para pantallas pequeñas */
+@media screen and (max-width: 600px) {
+  .container {
+      padding: 20px; /* Reducir espaciado en pantallas pequeñas */
+      max-width: 90%; /* Aumentar el ancho del formulario */
+  }
+
+  h2 {
+      font-size: 1.5rem; /* Reducir el tamaño del título en pantallas pequeñas */
+  }
+
+  button {
+      font-size: 1rem; /* Reducir el tamaño de la fuente en el botón */
+  }
+}

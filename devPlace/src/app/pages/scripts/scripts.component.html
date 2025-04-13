@@ -1,0 +1,20 @@
+<div class="scripts-container">
+    @for ( resource of resources; track resource){
+    <div class="script-card">
+        <h3>{{ resource.title }}</h3>
+        <p>{{ resource.description }}</p>
+        @if(resource.price === 0){
+        <span>Gratis</span>
+        } @else {
+        <span>Precio: {{ resource.price }}€</span>
+
+        }
+
+        @if(resource.price === 0){
+        <button class="btn-download">Descargar</button>
+        }@else {
+        <button class="btn-buy">Comprar</button>
+        }
+    </div>
+    }
+</div>

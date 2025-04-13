@@ -1,0 +1,52 @@
+/* Contenedor del header */
+.button-container {
+    background: linear-gradient(to right, #007bff, #6610f2);
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: sticky; /* Se mantiene arriba */
+    top: 0;
+    z-index: 1000;
+    border-radius: 20px;
+    margin: 20px auto;
+
+  }
+  
+  /* Navegación */
+  .button-container nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+  
+  /* Botones */
+  .button-container .btn {
+    background-color: white;
+    color: #007bff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+  }
+  
+  .button-container .btn:hover {
+    background-color: #e6e6e6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+  
+  /* Botón activo (si quisieras marcar la página actual más adelante) */
+  .button-container .btn-active {
+    background-color: #fff;
+    color: #6610f2;
+    font-weight: bold;
+    border: 2px solid #fff;
+  }
+  .logo {
+    width: 100px; 
+    height: auto; 
+    border-radius: 20px;
+}

@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  server-php-devplace:
+    container_name: servidor_php-devplace
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: unless-stopped
+    volumes:
+      - ../devplace-back:/var/www/html
+    stdin_open: true
+    links:
+      - mariadb-server-devplace
+    ports:
+      - "8070:80"
+  mariadb-server-devplace:
+    container_name: servidor_db-devplace
+    image: mariadb
+    ports:
+      - "3376:3306"
+    restart: unless-stopped
+    environment:
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ../.db_mysql/:/var/lib/mysql
