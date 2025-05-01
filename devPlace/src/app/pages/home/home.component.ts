@@ -7,7 +7,26 @@ import { Script, ScriptService } from '../../services/script.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit {
+
+  scripts: Script[] = [];
+  errorMessage = '';
+
+  constructor(private scriptService: ScriptService) {}
+
+  ngOnInit(): void {
+    this.scriptService.getScripts().subscribe({
+      next: (res) => {
+        this.scripts = res.data;  // Aquí cargamos los scripts
+      },
+      error: (err) => {
+        this.errorMessage = 'Error al obtener scripts'; // Error en caso de fallo
+      }
+    });
+  }
+}
+
+/*export class HomeComponent implements OnInit{
   ngOnInit(): void {
     throw new Error('Method not implemented.');
   }
@@ -30,3 +49,4 @@ export class HomeComponent implements OnInit{
   }
 
 }
+*/
