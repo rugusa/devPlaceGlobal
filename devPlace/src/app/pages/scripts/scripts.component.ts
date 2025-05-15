@@ -53,4 +53,23 @@ export class ScriptsComponent implements OnInit {
       },
     });
   }
+
+  descargarScript(script: Script): void {
+    this.scriptService.downloadScript(script.id).subscribe({
+      next: (blob) => { //blob representa un objeto tipo fichero de datos planos inmutables
+        const a = document.createElement('a');
+        const objectUrl = URL.createObjectURL(blob);
+        a.href = objectUrl;
+        a.download = `${script.title}.zip`; 
+        a.click();
+        URL.revokeObjectURL(objectUrl);
+      },
+      error: (err) => {
+        console.error('Error al descargar el script:', err);
+        alert('No se pudo descargar el script.');
+      }
+    });
+  }
+  
+  
 }

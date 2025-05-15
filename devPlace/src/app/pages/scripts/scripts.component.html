@@ -10,7 +10,7 @@
                     <span>Precio: {{ resource.price }}€</span>
                 }
                 @if(resource.price === 0){
-                    <button class="btn-download">Descargar</button>
+                    <button class="btn-download" (click)="descargarScript(resource)">Descargar</button>
                 }@else {
                     <button class="btn-buy">Comprar</button>
                 }

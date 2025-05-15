@@ -1,7 +1,7 @@
 <div class="container">
   <h2>Crear cuenta</h2>
-  <form (submit)="onRegister()" #registerForm="ngForm">
-      <div class="form-group">
+  <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)">
+    <div class="form-group">
           <label for="username">Nombre de usuario</label>
           <input type="text" id="username" name="username" ngModel required placeholder="Nombre de usuario" class="form-control" />
       </div>
@@ -19,5 +19,10 @@
       </div>
       <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary">Registrarse</button>
   </form>
+  @if(successMessage){
+    <div>{{successMessage}}</div>
+  }@else {
+    <div> {{errorMessage}} </div>
+  }
   <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión aquí</a></p>
 </div>

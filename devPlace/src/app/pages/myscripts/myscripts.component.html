@@ -1,0 +1,17 @@
+<h2>Mis Scripts</h2>
+
+@if (errorMessage) {
+  <p class="error">{{ errorMessage }}</p>
+} @else {
+  @if (scripts.length === 0) {
+    <p>No tienes scripts todavía.</p>
+  } @else {
+    <ul>
+      @for (script of scripts; track script.id) {
+        <li>
+          <strong>{{ script.title }}</strong> - {{ script.description }} - {{ script.price }}€
+        </li>
+      }
+    </ul>
+  }
+}

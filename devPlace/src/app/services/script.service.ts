@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { AuthService } from './auth.service';
 
 export interface Script {
   id: number;
@@ -12,27 +12,53 @@ export interface Script {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ScriptService {
-  private apiUrl = 'http://localhost:8000/api/script'; // URL de tu backend Symfony
-  //private apiUrl = 'http://server-php-devplace:80/api/script';
+  private apiUrl = 'http://localhost:8070/api/script'; 
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
-  getScripts(): Observable<{ status: string, data: Script[] }> {
-    return this.http.get<{ status: string, data: Script[] }>(this.apiUrl);
+  getScripts(): Observable<{ status: string; data: Script[] }> {
+    return this.http.get<{ status: string; data: Script[] }>(this.apiUrl);
   }
-  getScriptById(id: number): Observable<{ status: string, data: Script }> {
-    return this.http.get<{ status: string, data: Script }>(`${this.apiUrl}/${id}`);
+  getScriptById(id: number): Observable<{ status: string; data: Script }> {
+    return this.http.get<{ status: string; data: Script }>(
+      `${this.apiUrl}/${id}`
+    );
   }
-  createScript(scriptData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/new`, scriptData);
+  getScriptsByUser(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/scripts/user/${userId}`);
   }
+
+  // createScript(formData: FormData): Observable<any> {
+  //   return this.http.post(`${this.apiUrl}/new`, formData);
+  // }
+  createScript(formData: FormData): Observable<any> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+    return this.http.post(`${this.apiUrl}/new`, formData, { headers });
+  }
+  getMyScripts(): Observable<{ status: string; data: Script[] }> {
+    return this.http.get<{ status: string; data: Script[] }>(
+      'http://localhost:8070/api/my/scripts'
+    );
+  }
+
   updateScript(id: number, scriptData: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/${id}/edit`, scriptData);
   }
   deleteScript(id: number): Observable<any> {
     return this.http.post(`${this.apiUrl}/${id}`, {});
+  }
+  downloadScript(id: number): Observable<Blob> {
+    return this.http.get(
+      `http://localhost:8070/api/script/${id}/downloadScript`,
+      {
+        responseType: 'blob',
+      }
+    );
   }
 }

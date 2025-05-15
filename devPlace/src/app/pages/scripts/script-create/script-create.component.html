@@ -1,0 +1,33 @@
+<!-- <form (ngSubmit)="onSubmit()" #scriptForm="ngForm">
+    <input type="text" name="title" [(ngModel)]="title" required placeholder="Título" />
+    <textarea name="description" [(ngModel)]="description" required placeholder="Descripción"></textarea>
+    <input type="number" name="price" [(ngModel)]="price" required placeholder="Precio" />
+    
+    <input type="file" (change)="onFileSelected($event)" required />
+  
+    <button type="submit">Subir Script</button>
+  </form>
+   -->
+  <div class="container">
+    <form (ngSubmit)="onSubmit()" #scriptForm="ngForm" class="form-upload-container">
+      <div class="form-group">
+        <input type="text" name="title" [(ngModel)]="title" required placeholder="Título" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <textarea name="description" [(ngModel)]="description" required placeholder="Descripción"
+          class="form-control"></textarea>
+      </div>
+
+      <div class="form-group">
+        <input type="number" name="price" [(ngModel)]="price" required placeholder="Precio" class="form-control" />
+      </div>
+
+      <div class="form-group">
+        <input type="file" (change)="onFileSelected($event)" required class="form-control-file" />
+      </div>
+
+      <button type="submit" class="btn-primary">Subir Script</button>
+    </form>
+
+  </div>
