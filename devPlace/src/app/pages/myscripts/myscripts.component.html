@@ -1,17 +1,31 @@
-<h2>Mis Scripts</h2>
-
-@if (errorMessage) {
-  <p class="error">{{ errorMessage }}</p>
-} @else {
-  @if (scripts.length === 0) {
-    <p>No tienes scripts todavía.</p>
+<!-- mis-scripts.component.html -->
+<div class="scripts-container">
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
   } @else {
-    <ul>
-      @for (script of scripts; track script.id) {
-        <li>
-          <strong>{{ script.title }}</strong> - {{ script.description }} - {{ script.price }}€
-        </li>
+    @if (!loading && scripts.length === 0) {
+      <p>No tienes scripts todavía.</p>
+    } @else {
+      @for ( script of scripts; track script.id) {
+        <div class="script-card">
+          @if(script.userId == 6){
+            <h3>{{ script.title }}</h3>
+            <p>{{ script.description }}</p>
+
+          }
+
+          @if (script.price === 0) {
+            <span>Gratis</span>
+            <button class="btn-download"
+                    (click)="descargarScript(script.id, script.title)">
+              Descargar
+            </button>
+          } @else {
+            <span>Precio: {{ script.price }} €</span>
+            <button class="btn-buy">Comprar</button>
+          }
+        </div>
       }
-    </ul>
+    }
   }
-}
+</div>

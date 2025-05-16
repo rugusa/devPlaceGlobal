@@ -61,6 +61,7 @@ export class ScriptService {
 
   /** Obtiene los scripts del usuario autenticado */
   getMyScripts(): Observable<{ status: string; data: Script[] }> {
+    console.log('🔗 GET', `${this.apiUrl}/my/scripts`);
     return this.http.get<{ status: string; data: Script[] }>(
       `${this.apiUrl}/my/scripts`,
       { headers: this.authHeaders() }
