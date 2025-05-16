@@ -1,73 +1,56 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { ScriptService } from '../../../services/script.service';
 import { AuthService } from '../../../services/auth.service';
-import { FormsModule } from '@angular/forms';
-import { JwtPayload } from '../../../interfaces/jwt-payload';
+
 @Component({
   selector: 'app-script-create',
   standalone: true,
-  imports: [FormsModule],
+  imports: [ CommonModule, FormsModule ],
   templateUrl: './script-create.component.html',
-  styleUrl: './script-create.component.css',
+  styleUrls: ['./script-create.component.css'],
 })
 export class ScriptCreateComponent {
-  userId: number = 0;
-  title: string = '';
-  description: string = '';
-  price: number = 0;
-  selectedFile: File | null = null;
+  title = '';
+  description = '';
+  price = 0;
   createdAt = new Date().toISOString().slice(0, 19);
+  selectedFile: File | null = null;
 
   constructor(
     private scriptService: ScriptService,
     private authService: AuthService
   ) {}
 
-  ngOnInit(): void {
-    const user = this.authService.getUserInfo();
-    if (user) {
-      this.userId = user.id;
-    } else {
-      console.error('Usuario no autenticado');
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files?.length) {
+      this.selectedFile = input.files[0];
     }
-  }
-  // onFileSelected(event: any): void {
-  //   const file: File = event.target.files[0];
-  //   if (file) {
-  //     this.selectedFile = file;
-  //   }
-  // }
-  onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
   }
 
-  onSubmit(): void {
+  onSubmit() {
     if (!this.selectedFile) {
-      alert('Debes seleccionar un archivo.');
-      return;
+      return alert('Debes seleccionar un archivo.');
     }
+
     const formData = new FormData();
     formData.append('title', this.title);
     formData.append('description', this.description);
     formData.append('price', this.price.toString());
-    formData.append('user_id', (this.userId ?? 1).toString());
     formData.append('created_at', this.createdAt);
     formData.append('file', this.selectedFile);
-    console.log('FormData enviado:', formData);
-
-    const file = formData.get('file') as File;
-    if (file) {
-      console.log('Archivo:', file.name);
-      console.log('Tamaño:', file.size); 
-    }
 
     this.scriptService.createScript(formData).subscribe({
-      next: (response) => {
-        console.log('Script creado:', response);
+      next: resp => {
+        console.log('Script creado:', resp);
+        alert('¡Script creado con éxito!');
       },
-      error: (error) => {
-        console.error('Error al crear el script:', error);
-      },
+      error: err => {
+        console.error(err);
+        alert('Error al crear el script.');
+      }
     });
   }
 }

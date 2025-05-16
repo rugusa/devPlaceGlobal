@@ -7,7 +7,7 @@ services:
       context: .
     restart: unless-stopped
     volumes:
-      - ../devplace-back:/var/www/html
+      - C:/Users/guill/OneDrive/Desktop/2ºDAW/TFG/devplace-back/devplace-back:/var/www/html
     stdin_open: true
     links:
       - mariadb-server-devplace

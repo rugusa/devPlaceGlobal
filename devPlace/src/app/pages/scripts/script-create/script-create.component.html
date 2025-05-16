@@ -1,33 +1,30 @@
-<!-- <form (ngSubmit)="onSubmit()" #scriptForm="ngForm">
-    <input type="text" name="title" [(ngModel)]="title" required placeholder="Título" />
-    <textarea name="description" [(ngModel)]="description" required placeholder="Descripción"></textarea>
-    <input type="number" name="price" [(ngModel)]="price" required placeholder="Precio" />
-    
-    <input type="file" (change)="onFileSelected($event)" required />
-  
-    <button type="submit">Subir Script</button>
-  </form>
-   -->
-  <div class="container">
-    <form (ngSubmit)="onSubmit()" #scriptForm="ngForm" class="form-upload-container">
-      <div class="form-group">
-        <input type="text" name="title" [(ngModel)]="title" required placeholder="Título" class="form-control" />
-      </div>
+<h2>Crear nuevo Script</h2>
 
-      <div class="form-group">
-        <textarea name="description" [(ngModel)]="description" required placeholder="Descripción"
-          class="form-control"></textarea>
-      </div>
+<form (ngSubmit)="onSubmit()">
+  <label>
+    Título
+    <input [(ngModel)]="title" name="title" required>
+  </label>
 
-      <div class="form-group">
-        <input type="number" name="price" [(ngModel)]="price" required placeholder="Precio" class="form-control" />
-      </div>
+  <label>
+    Descripción
+    <textarea [(ngModel)]="description" name="description" required></textarea>
+  </label>
 
-      <div class="form-group">
-        <input type="file" (change)="onFileSelected($event)" required class="form-control-file" />
-      </div>
+  <label>
+    Precio
+    <input type="number" [(ngModel)]="price" name="price" min="0" required>
+  </label>
 
-      <button type="submit" class="btn-primary">Subir Script</button>
-    </form>
+  <label>
+    Fecha de creación
+    <input type="datetime-local" [(ngModel)]="createdAt" name="createdAt" required>
+  </label>
 
-  </div>
+  <label>
+    Archivo
+    <input type="file" (change)="onFileSelected($event)" accept="*/*" required>
+  </label>
+
+  <button type="submit">Crear Script</button>
+</form>
