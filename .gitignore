@@ -1,0 +1,15 @@
+/.db_mysql/devplace_db/
+/.db_mysql/mysql/
+/.db_mysql/performance_schema/
+/.db_mysql/sys/
+/.db_mysql/.my-healthcheck.cnf
+/.db_mysql/aria_log.00000001
+/.db_mysql/aria_log_control
+/.db_mysql/ib_buffer_pool
+/.db_mysql/ib_logfile0
+/.db_mysql/undo001
+/.db_mysql/multi-master.info
+/.db_mysql/mariadb_upgrade_info
+/.db_mysql/ibdata1
+/.db_mysql/undo003
+/.db_mysql/undo002
