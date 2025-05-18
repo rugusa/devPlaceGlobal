@@ -24,7 +24,6 @@ export class ScriptService {
     private auth: AuthService
   ) {}
 
-  /** Construye el header Authorization con el JWT */
   private authHeaders(): HttpHeaders {
     const token = this.auth.getToken();
     if (!token) {
@@ -34,8 +33,8 @@ export class ScriptService {
       Authorization: `Bearer ${token}`
     });
   }
+  
 
-  /** Obtiene todos los scripts */
   getScripts(): Observable<{ status: string; data: Script[] }> {
     return this.http.get<{ status: string; data: Script[] }>(
       `${this.apiUrl}/script`,
@@ -43,7 +42,6 @@ export class ScriptService {
     );
   }
 
-  /** Obtiene un script por su ID */
   getScriptById(id: number): Observable<{ status: string; data: Script }> {
     return this.http.get<{ status: string; data: Script }>(
       `${this.apiUrl}/show/${id}`,
@@ -51,7 +49,6 @@ export class ScriptService {
     );
   }
 
-  /** Obtiene todos los scripts de un usuario (por su ID) */
   getScriptsByUser(userId: number): Observable<{ status: string; data: Script[] }> {
     return this.http.get<{ status: string; data: Script[] }>(
       `${this.apiUrl}/user/${userId}/scripts`,
@@ -59,7 +56,6 @@ export class ScriptService {
     );
   }
 
-  /** Obtiene los scripts del usuario autenticado */
   getMyScripts(): Observable<{ status: string; data: Script[] }> {
     console.log('🔗 GET', `${this.apiUrl}/my/scripts`);
     return this.http.get<{ status: string; data: Script[] }>(
@@ -68,25 +64,28 @@ export class ScriptService {
     );
   }
 
-  /** Crea un nuevo script (envía FormData con archivo) */
-  createScript(formData: FormData): Observable<{ status: string; data: { id: number; title: string; file_url: string } }> {
-    return this.http.post<{ status: string; data: { id: number; title: string; file_url: string } }>(
-      `${this.apiUrl}/script/new`,
+  // createScript(formData: FormData): Observable<{ status: string; data: { id: number; title: string; file_url: string } }> {
+  //   return this.http.post<{ status: string; data: { id: number; title: string; file_url: string } }>(
+  //     `${this.apiUrl}/script/new`,
+  //     formData,
+  //     { headers: this.authHeaders() }
+  //   );
+  // }
+createScript(formData: FormData): Observable<any> {
+  return this.http.post(
+    `${this.apiUrl}/script/new`,
+    formData
+  );
+}
+
+  updateScript(id: number, formData: FormData): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/${id}/edit`,
       formData,
       { headers: this.authHeaders() }
     );
   }
 
-  /** Actualiza un script existente */
-  updateScript(id: number, scriptData: any): Observable<any> {
-    return this.http.post(
-      `${this.apiUrl}/${id}/edit`,
-      scriptData,
-      { headers: this.authHeaders() }
-    );
-  }
-
-  /** Borra un script */
   deleteScript(id: number): Observable<{ status: string; message: string }> {
     return this.http.post<{ status: string; message: string }>(
       `${this.apiUrl}/${id}`,
@@ -95,7 +94,6 @@ export class ScriptService {
     );
   }
 
-  /** Descarga el fichero de un script */
   downloadScript(id: number): Observable<Blob> {
     return this.http.get(
       `${this.apiUrl}/script/${id}/downloadScript`,

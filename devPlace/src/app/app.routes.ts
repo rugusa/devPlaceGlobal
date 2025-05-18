@@ -6,6 +6,7 @@ import { ScriptsComponent } from './pages/scripts/scripts.component';
 import { NgModule } from '@angular/core';
 import { ScriptCreateComponent } from './pages/scripts/script-create/script-create.component';
 import { MyscriptsComponent } from './pages/myscripts/myscripts.component';
+import { ScriptEditComponent } from './components/script-edit/script-edit.component';
 export const routes: Routes = [
     {path: '', component: HomeComponent},
     {path: 'login', component: LoginComponent},
@@ -13,6 +14,7 @@ export const routes: Routes = [
     {path: 'scripts', component: ScriptsComponent},
     {path: 'myscripts', component: MyscriptsComponent},
     {path: 'script-create', component: ScriptCreateComponent},
+    {path: 'script-edit/:id', component: ScriptEditComponent},
 ];
 @NgModule({
     imports: [RouterModule.forRoot(routes)],

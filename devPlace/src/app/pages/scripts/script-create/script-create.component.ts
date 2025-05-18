@@ -41,7 +41,8 @@ export class ScriptCreateComponent {
     formData.append('price', this.price.toString());
     formData.append('created_at', this.createdAt);
     formData.append('file', this.selectedFile);
-
+    
+console.log('Antes de llamar al servicio')
     this.scriptService.createScript(formData).subscribe({
       next: resp => {
         console.log('Script creado:', resp);

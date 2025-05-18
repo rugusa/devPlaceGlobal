@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ScriptService } from '../../services/script.service';
+import {  Router, RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-myscripts',
+  imports: [CommonModule],
   templateUrl: './myscripts.component.html',
   styleUrls: ['./myscripts.component.css'],
   standalone: true,
@@ -12,15 +15,11 @@ export class MyscriptsComponent implements OnInit {
   errorMessage = '';
   loading = true;
 
-  constructor(private scriptService: ScriptService) {}
+  constructor(private scriptService: ScriptService,private router: Router) {}
 
   ngOnInit(): void {
-        console.log('⏳ Lanzando getMyScripts…');
-
     this.scriptService.getMyScripts().subscribe({
       next: res => {
-       console.log('✅ getMyScripts respondió URL:', this.scriptService['apiUrl'] + '/my/scripts');
-
         this.scripts = res.data;
         this.loading = false;
       },
@@ -48,4 +47,23 @@ export class MyscriptsComponent implements OnInit {
       }
     });
   }
+  onEditScript(id: number) {
+    this.router.navigate(['/script-edit', id]);
+  }
+
+  onDeleteScript(id: number) {
+    if (!confirm('¿Seguro que quieres eliminar este script?')) {
+      return;
+    }
+    this.scriptService.deleteScript(id).subscribe({
+      next: () => {
+        this.scripts = this.scripts.filter(s => s.id !== id);
+      },
+      error: err => {
+        console.error('Error al eliminar:', err);
+        alert('No se pudo eliminar el script.');
+      }
+    });
+  }
+
 }

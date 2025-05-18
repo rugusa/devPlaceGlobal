@@ -34,6 +34,10 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('token');
   }
+  setToken(token: string) {
+  localStorage.setItem(this.tokenKey, token);
+}
+
   getUserInfo(): JwtPayload | null {
     const token = this.getToken();
     if (!token) return null;

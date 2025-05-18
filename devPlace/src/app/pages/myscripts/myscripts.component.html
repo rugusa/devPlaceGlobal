@@ -1,4 +1,3 @@
-<!-- mis-scripts.component.html -->
 <div class="scripts-container">
   @if (errorMessage) {
     <p class="error">{{ errorMessage }}</p>
@@ -8,12 +7,8 @@
     } @else {
       @for ( script of scripts; track script.id) {
         <div class="script-card">
-          @if(script.userId == 6){
             <h3>{{ script.title }}</h3>
             <p>{{ script.description }}</p>
-
-          }
-
           @if (script.price === 0) {
             <span>Gratis</span>
             <button class="btn-download"
@@ -24,6 +19,12 @@
             <span>Precio: {{ script.price }} €</span>
             <button class="btn-buy">Comprar</button>
           }
+          <div class="actions">
+            <button class="btn-download" (click)="onEditScript(script.id)">Editar
+            </button>
+            <button class="btn-download" (click)="onDeleteScript(script.id)">Eliminar
+            </button>
+          </div>
         </div>
       }
     }
