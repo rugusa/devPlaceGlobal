@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 export class MyscriptsComponent implements OnInit {
   scripts: any[] = [];
   errorMessage = '';
-  loading = true;
+  isLoading = true;
 
   constructor(private scriptService: ScriptService,private router: Router) {}
 
@@ -21,12 +21,12 @@ export class MyscriptsComponent implements OnInit {
     this.scriptService.getMyScripts().subscribe({
       next: res => {
         this.scripts = res.data;
-        this.loading = false;
+        this.isLoading = false;
       },
       error: err => {
         console.error(err);
         this.errorMessage = 'No se han podido cargar tus scripts.';
-        this.loading = false;
+        this.isLoading = false;
       }
     });
   }

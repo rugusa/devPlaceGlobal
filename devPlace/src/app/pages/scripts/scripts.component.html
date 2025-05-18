@@ -12,7 +12,7 @@
                 @if(resource.price === 0){
                     <button class="btn-download" (click)="descargarScript(resource.id, resource.title)">Descargar</button>
                 }@else {
-                    <button class="btn-buy">Comprar</button>
+                    <button class="btn-buy" (click)="descargarScript(resource.id, resource.title)">Comprar</button>
                 }
             </div>
         }
