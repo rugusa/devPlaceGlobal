@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-script-create',
   standalone: true,
-  imports: [ CommonModule, FormsModule ],
+  imports: [CommonModule, FormsModule],
   templateUrl: './script-create.component.html',
   styleUrls: ['./script-create.component.css'],
 })
@@ -20,7 +20,10 @@ export class ScriptCreateComponent {
   selectedFile: File | null = null;
   isLoading = false;
   constructor(
-    private scriptService: ScriptService,private authService: AuthService, private router: Router) {}
+    private scriptService: ScriptService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -42,17 +45,17 @@ export class ScriptCreateComponent {
     formData.append('file', this.selectedFile);
     this.isLoading = true;
     this.scriptService.createScript(formData).subscribe({
-      next: resp => {
+      next: (resp) => {
         this.isLoading = false;
         console.log('Script creado:', resp);
         alert('¡Script creado con éxito!');
         this.router.navigate(['/myscripts']);
       },
-      error: err => {
+      error: (err) => {
         this.isLoading = false;
         console.error(err);
         alert('Error al crear el script.');
-      }
+      },
     });
   }
 }

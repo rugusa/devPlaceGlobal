@@ -17,11 +17,11 @@ export class ScriptsComponent implements OnInit {
 
   ngOnInit(): void {
     this.scriptService.getScripts().subscribe({
-      next: res => this.scripts = res.data,
-      error: err => {
+      next: (res) => (this.scripts = res.data),
+      error: (err) => {
         console.error(err);
         this.errorMessage = 'Error al cargar los scripts';
-      }
+      },
     });
   }
 
@@ -35,7 +35,7 @@ export class ScriptsComponent implements OnInit {
         a.click();
         URL.revokeObjectURL(url);
       },
-      error: () => alert('No se pudo descargar el script.')
+      error: () => alert('No se pudo descargar el script.'),
     });
   }
 }

@@ -64,13 +64,6 @@ export class ScriptService {
     );
   }
 
-  // createScript(formData: FormData): Observable<{ status: string; data: { id: number; title: string; file_url: string } }> {
-  //   return this.http.post<{ status: string; data: { id: number; title: string; file_url: string } }>(
-  //     `${this.apiUrl}/script/new`,
-  //     formData,
-  //     { headers: this.authHeaders() }
-  //   );
-  // }
 createScript(formData: FormData): Observable<any> {
   return this.http.post(
     `${this.apiUrl}/script/new`,

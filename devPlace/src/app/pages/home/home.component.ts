@@ -15,13 +15,5 @@ export class HomeComponent implements OnInit {
   constructor(private scriptService: ScriptService) {}
 
    ngOnInit(): void {
-//     this.scriptService.getScripts().subscribe({
-//       next: (res) => {
-//         this.scripts = res.data;
-//       },
-//       error: (err) => {
-//         this.errorMessage = 'Error al obtener scripts';
-//       }
-//     });
    }
  }

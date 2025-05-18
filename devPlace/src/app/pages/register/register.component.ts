@@ -33,7 +33,7 @@ export class RegisterComponent {
       },
       error: (err) => {
         this.errorMessage = err.error?.error || 'Error al registrar usuario.';
-      }
+      },
     });
   }
 }
