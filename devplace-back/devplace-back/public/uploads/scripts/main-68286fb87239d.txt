@@ -1,0 +1,207 @@
+document.addEventListener("DOMContentLoaded", () => {//aseguramos que el dom este cargado antes de que se ejecute elscript
+  const API_URL = "https://pokeapi.co/api/v2/pokemon";
+  const cardsContainer = document.querySelector(".grid");
+  const modal = document.querySelector(".modal");
+  const modalContent = document.querySelector(".modal-content");
+  const modalCloseButton = document.createElement("div"); 
+  const favoritesButton = document.querySelector(".question-link");
+  const showMoreButton = document.getElementById("render-more").querySelector("button");
+  let pageAct = 1;
+  let limitAct = 3;
+  let pokemonAct = {};
+  let spritesAct = [];
+  let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+  //Crear boton de cierre para cuando se abre el modal
+  modalCloseButton.className = "close-button";
+  modalCloseButton.textContent = "X";
+  modalContent.prepend(modalCloseButton);//se agrega al pricipio
+  
+  //obtener pokemos y su info
+  const fetchPokemon = async (page = 1, limit = 3) => {
+    const offset = (page - 1) * limit;
+    try {
+      const response = await fetch(`${API_URL}?offset=${offset}&limit=${limit}`);
+      if (!response.ok) throw new Error(`Error: ${response.status}`);
+      const data = await response.json();
+      const results = await Promise.all(
+        data.results.map(async (pokemon) => {
+            const details = await fetch(pokemon.url);
+            if(!details.ok) throw new Error(`Error: ${response.status}`)
+            return await details.json();
+        })
+    );
+    return results.map((pokemon) => ({
+        name: pokemon.name,
+        sprites: pokemon.sprites,
+    }));
+    }catch (error){
+      console.error("Error al haer fetch", error);
+      return[];
+    }
+};
+
+  //Renderizar tarjetas
+  const renderCards = (pokemons) => {
+      cardsContainer.innerHTML = "";
+      pokemons.forEach((pokemon, index) => {
+          const card = document.createElement("div");
+          card.classList.add("card"); //creamos div cada vez con la clase card
+          //Imagenx12
+          const repeatedImages = Array(12)
+              .fill(`<img src="${pokemon.sprites.front_default}" alt="${pokemon.name}" style="width: 80px; height: 80px;">`)
+              .join("");
+
+          card.innerHTML = `
+              <div class='photo'>
+                  ${repeatedImages}
+              </div>
+              <div class="footer">
+                  <div class="titles">
+                      <h2 class='card-title'>${pokemon.name}</h2>
+                  </div>
+                  <div class="bigger">
+                      <div class="trigger" data-index="${index}">Ampliar</div>
+                  </div>
+              </div>
+              <div class='render-more'>
+                  <button data-index="${index}" data-dir="prev">ANTERIOR</button>
+                  <button data-index="${index}" data-dir="next">SIGUIENTE</button>
+              </div>
+          `;
+          cardsContainer.appendChild(card);
+      });
+      pokemonAct = pokemons;
+      spritesAct = pokemons.map((pokemon) => Object.values(pokemon.sprites).filter(Boolean));
+  };
+
+  //Cambio de imagenes de los pokemon
+  const navigateSprites = (index, direction) => {
+      const sprites = spritesAct[index];
+      if(!sprites || sprites.length === 0) return;
+
+      const galleryImages = cardsContainer.querySelectorAll(".photo")[index].querySelectorAll("img");
+      const currentSrc = galleryImages[0].getAttribute("src");
+      let currentIndex = sprites.indexOf(currentSrc);
+
+      console.log('Current Index:', currentIndex, 'Direction:', direction, 'Sprites:', sprites);
+      currentIndex = (currentIndex + (direction === "next" ? 1 : -1) + sprites.length) % sprites.length;
+      
+      if(currentIndex<0){
+        currentIndex = sprites.length -1;
+      }
+      
+      while (!sprites[currentIndex] && currentIndex >= 0 && currentIndex < sprites.length) { 
+        currentIndex = (currentIndex + (direction === "next" ? 1 : -1) + sprites.length) % sprites.length; 
+        if (currentIndex < 0) { 
+            currentIndex = sprites.length - 1; 
+        } 
+    } 
+    // Actualizamos las imágenes de la galería 
+    if (sprites[currentIndex]) { 
+        galleryImages.forEach(img => img.setAttribute("src", sprites[currentIndex])); 
+    } else { 
+        console.error("No se ha encontrado el sprite para este indice", currentIndex); 
+    }
+      //Al apretar repetidas veces a anterior me dice que no encuentra el archivo y no se como corregirlo
+  };
+  //abrimos el modal
+  const openModal = (index) => {
+      const pokemon = pokemonAct[index];
+      const visibleImageSrc = cardsContainer.querySelectorAll(".photo")[index].querySelector("img").src;
+      modalContent.innerHTML = `
+          <div class="container" style="text-align: center;">
+              <h2 class="card-title">${pokemon.name}</h2>
+              <img src="${visibleImageSrc}" 
+                   alt="${pokemon.name}" style="width: 500px; height: 500px;">
+          </div>
+      `;
+      modalContent.prepend(modalCloseButton);
+      modal.classList.add("show-modal");
+
+      //si apretamos en el nombre del pokemon se añade a favoritos y aparece un alert indicandolo
+      modalContent.querySelector(".card-title").addEventListener("click", () => {
+          if (!favorites.includes(pokemon.name)) {
+              favorites.push(pokemon.name);
+              localStorage.setItem("favorites", JSON.stringify(favorites));
+              alert(`El pokemon ${pokemon.name} se ha añadido a favoritos.`);
+          } else {
+              alert(`El pokemon ${pokemon.name} ya estaba en favoritos.`);
+          }
+      });
+  };
+  modalCloseButton.addEventListener("click", () => {
+      modal.classList.remove("show-modal");
+  });
+
+  cardsContainer.addEventListener("click", (e) => {
+      if (e.target.tagName === "BUTTON") {
+          const index = e.target.dataset.index;
+          const direction = e.target.dataset.dir;
+          navigateSprites(index, direction);
+      } else if (e.target.classList.contains("trigger")) {
+          const index = e.target.dataset.index;
+          openModal(index);
+      }
+  });
+
+  //favoritos guardados y buscador de favoritos
+  favoritesButton.addEventListener("click", () => {
+      modalContent.innerHTML = `
+          <h2>Favoritos</h2>
+          <form id="search-form" style="margin-top: 20px;">
+            <input type="text" id="search-input" placeholder="Busca un Pokémon favorito" style="padding: 5px;">
+            <button type="submit" style="padding: 5px;">Buscar</button>
+        </form>
+          <ul>${favorites.map((fav) => `<li>${fav}</li>`).join("")}</ul>
+      `;
+      modalContent.prepend(modalCloseButton);
+      modal.classList.add("show-modal");
+      
+      const searchForm = modalContent.querySelector("#search-form");
+      searchForm.addEventListener("submit", (e) =>{
+        e.preventDefault();
+        const searchTerm = modalContent.querySelector("#search-input").value.trim().toLowerCase();
+        searchFavorite(searchTerm);
+      })
+  });
+
+  const searchFavorite = async (name) =>{
+    if(!favorites.includes(name)) {
+        alert("El pokemon no esta en favoritos");
+        return;
+    }
+    try {
+        const response = await fetch(`${API_URL}/${name}`);
+        if(!response.ok) throw new Error("Error en la busqueda");
+
+        const data = await response.json();
+
+        modalContent.innerHTML = `
+        <div class="container" style="text-align: center;">
+                <h2>${data.name}</h2>
+                <img src="${data.sprites.front_default}" alt="${data.name}" style="width: 200px; height: 200px;">
+                <p><strong>Altura:</strong> ${data.height / 10} m</p>
+                <p><strong>Peso:</strong> ${data.weight / 10} kg</p>
+                <p><strong>Tipos:</strong> ${data.types.map((t) => t.type.name).join(", ")}</p>
+            </div>`;
+            modalContent.prepend(modalCloseButton);
+    } catch (error){
+        alert("Error al buscar pokemon");
+        console.log(error)
+    }
+  };
+
+  showMoreButton.addEventListener("click", async () => {
+      pageAct ++;
+      const pokemons = await fetchPokemon(1, 20);
+      renderCards(pokemons);
+      showMoreButton.remove();
+  });
+
+  //obtencion inicial de los pokemons
+  (async () => {
+      const pokemons = await fetchPokemon(pageAct,limitAct);
+      renderCards(pokemons);
+  })();
+});

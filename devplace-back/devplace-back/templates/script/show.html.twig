@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Script{% endblock %}
+
+{% block body %}
+    <h1>Script</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ script.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ script.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ script.description }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ script.price }}</td>
+            </tr>
+            <tr>
+                <th>FilePath</th>
+                <td>{{ script.filePath }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ script.createdAt ? script.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_script_index') }}">back to list</a>
+
+    <a href="{{ path('app_script_edit', {'id': script.id}) }}">edit</a>
+
+    {{ include('script/_delete_form.html.twig') }}
+{% endblock %}

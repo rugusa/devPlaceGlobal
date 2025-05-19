@@ -1,0 +1,18 @@
+<h1>Lista de Tarjetas</h1>
+
+<!-- Generamos las tarjetas usando @for (Angular 17) -->
+
+@for (card of cards; track card) {
+<app-card [title]="card" (notify)="handleNotification($event)">
+</app-card>
+
+}
+
+<!-- 📌 Explicación:
+  - @for (card of cards; track card): Iteramos sobre el array "cards" con la nueva sintaxis de Angular 17.
+  - [title]="card": Pasamos el título al hijo.
+  - (notify)="handleNotification($event)": Escuchamos el evento "notify" y llamamos a la función handleNotification().
+-->
+
+<p @if(message>{{ message }})</p>
+<!-- 📌 Mostramos el mensaje si existe -->

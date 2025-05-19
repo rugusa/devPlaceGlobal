@@ -1,0 +1,27 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+home:
+    path: /
+    controller: App\Controller\HomeController::index
+
+scripts:
+    path: /scripts
+    controller: App\Controller\ScriptController::index
+
+api_login:
+    path: /api/login
+    controller: App\Controller\AuthController::login
+
+api_script_new:
+    path: /api/script/new
+    controller: App\Controller\ScriptController::new
+    methods: [POST]
+
+api_script_download:
+    path: /api/script/{id}/download
+    controller: App\Controller\ScriptController::downloadScript
+    methods: [GET]
+

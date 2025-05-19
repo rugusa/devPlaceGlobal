@@ -1,0 +1,188 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const API_URL = "https://pokeapi.co/api/v2/pokemon";
+    const cardsContainer = document.querySelector(".grid");
+    const modal = document.querySelector(".modal");
+    const modalContent = document.querySelector(".modal-content");
+    const modalCloseButton = createCloseButton();
+    const favoritesButton = document.querySelector(".question-link");
+    const showMoreButton = document.querySelector("#render-more button");
+
+    let currentPage = 1;
+    const limitPerPage = 3;
+    let currentPokemons = [];
+    let pokemonSprites = [];
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    function createCloseButton() {
+        const button = document.createElement("div");
+        button.className = "close-button";
+        button.textContent = "X";
+        return button;
+    }
+
+    function showModal(content) {
+        modalContent.innerHTML = content;
+        modalContent.prepend(modalCloseButton);
+        modal.classList.add("show-modal");
+    }
+
+    function closeModal() {
+        modal.classList.remove("show-modal");
+    }
+
+    modalCloseButton.addEventListener("click", closeModal);
+
+    async function fetchPokemon(page = 1, limit = 3) {
+        const offset = (page - 1) * limit;
+        try {
+            const response = await fetch(`${API_URL}?offset=${offset}&limit=${limit}`);
+            if (!response.ok) throw new Error(`Error: ${response.status}`);
+            const data = await response.json();
+            const detailsPromises = data.results.map(pokemon => fetch(pokemon.url).then(res => res.json()));
+            const results = await Promise.all(detailsPromises);
+            return results.map(pokemon => ({
+                name: pokemon.name,
+                sprites: Object.values(pokemon.sprites).filter(Boolean)
+            }));
+        } catch (error) {
+            console.error("Error fetching Pokémon data:", error);
+            return [];
+        }
+    }
+
+    function renderCards(pokemons) {
+        cardsContainer.innerHTML = pokemons.map((pokemon, index) => `
+            <div class="card">
+                <div class="photo">
+                    ${Array(12).fill(`<img src="${pokemon.sprites[0]}" alt="${pokemon.name}" style="width: 80px; height: 80px;">`).join('')}
+                </div>
+                <div class="footer">
+                    <div class="titles">
+                        <h2 class="card-title">${pokemon.name}</h2>
+                    </div>
+                    <div class="bigger">
+                        <div class="trigger" data-index="${index}">Ampliar</div>
+                    </div>
+                </div>
+                <div class="render-more">
+                    <button data-index="${index}" data-dir="prev">ANTERIOR</button>
+                    <button data-index="${index}" data-dir="next">SIGUIENTE</button>
+                </div>
+            </div>
+        `).join('');
+
+        currentPokemons = pokemons;
+        pokemonSprites = pokemons.map(pokemon => pokemon.sprites);
+    }
+
+    function navigateSprites(index, direction) {
+        const sprites = pokemonSprites[index];
+        if (!sprites || sprites.length === 0) return;
+        const galleryImages = cardsContainer.querySelectorAll(".photo")[index].querySelectorAll("img");
+        const currentSrc = galleryImages[0].getAttribute("src");
+        let currentIndex = sprites.indexOf(currentSrc);
+
+        currentIndex = (currentIndex + (direction === "next" ? 1 : -1) + sprites.length) % sprites.length;
+        if (currentIndex < 0) currentIndex = sprites.length - 1;
+
+        while (!sprites[currentIndex] && currentIndex >= 0 && currentIndex < sprites.length) {
+            currentIndex = (currentIndex + (direction === "next" ? 1 : -1) + sprites.length) % sprites.length;
+            if (currentIndex < 0) currentIndex = sprites.length - 1;
+        }
+
+        if (sprites[currentIndex]) {
+            galleryImages.forEach(img => img.setAttribute("src", sprites[currentIndex]));
+        } else {
+            console.error("Sprite not found for index:", currentIndex);
+        }
+    }
+
+    function openModal(index) {
+        const pokemon = currentPokemons[index];
+        const visibleImageSrc = cardsContainer.querySelectorAll(".photo")[index].querySelector("img").src;
+
+        showModal(`
+            <div class="container" style="text-align: center;">
+                <h2 class="card-title">${pokemon.name}</h2>
+                <img src="${visibleImageSrc}" alt="${pokemon.name}" style="width: 500px; height: 500px;">
+            </div>
+        `);
+
+        modalContent.querySelector(".card-title").addEventListener("click", () => {
+            if (!favorites.includes(pokemon.name)) {
+                favorites.push(pokemon.name);
+                localStorage.setItem("favorites", JSON.stringify(favorites));
+                alert(`${pokemon.name} añadido a favoritos.`);
+            } else {
+                alert(`${pokemon.name} ya está en favoritos.`);
+            }
+        });
+    }
+
+    cardsContainer.addEventListener("click", (e) => {
+        if (e.target.tagName === "BUTTON") {
+            const index = e.target.dataset.index;
+            const direction = e.target.dataset.dir;
+            navigateSprites(index, direction);
+        } else if (e.target.classList.contains("trigger")) {
+            const index = e.target.dataset.index;
+            openModal(index);
+        }
+    });
+
+    favoritesButton.addEventListener("click", () => {
+        showModal(`
+            <h2>Favoritos</h2>
+            <form id="search-form" style="margin-top: 20px;">
+                <input type="text" id="search-input" placeholder="Busca un Pokémon favorito" style="padding: 5px;">
+                <button type="submit" style="padding: 5px;">Buscar</button>
+            </form>
+            <ul>${favorites.map(fav => `<li>${fav}</li>`).join('')}</ul>
+        `);
+
+        const searchForm = modalContent.querySelector("#search-form");
+        searchForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const searchTerm = modalContent.querySelector("#search-input").value.trim().toLowerCase();
+            searchFavorite(searchTerm);
+        });
+    });
+
+    async function searchFavorite(name) {
+        if (!favorites.includes(name)) {
+            alert("El pokemon no está en favoritos");
+            return;
+        }
+
+        try {
+            const response = await fetch(`${API_URL}/${name}`);
+            if (!response.ok) throw new Error("Error en la búsqueda");
+
+            const data = await response.json();
+
+            showModal(`
+                <div class="container" style="text-align: center;">
+                    <h2>${data.name}</h2>
+                    <img src="${data.sprites.front_default}" alt="${data.name}" style="width: 200px; height: 200px;">
+                    <p><strong>Altura:</strong> ${data.height / 10} m</p>
+                    <p><strong>Peso:</strong> ${data.weight / 10} kg</p>
+                    <p><strong>Tipos:</strong> ${data.types.map(t => t.type.name).join(", ")}</p>
+                </div>
+            `);
+        } catch (error) {
+            alert("Error al buscar Pokémon");
+            console.error(error);
+        }
+    }
+
+    showMoreButton.addEventListener("click", async () => {
+        const pokemons = await fetchPokemon(++currentPage, limitPerPage);
+        renderCards(pokemons);
+        showMoreButton.remove();
+    });
+
+    (async () => {
+        const initialPokemons = await fetchPokemon(currentPage, limitPerPage);
+        renderCards(initialPokemons);
+    })();
+});
