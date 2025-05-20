@@ -1,0 +1,21 @@
+import { Component } from '@angular/core';
+import { CardComponent } from '../../components/card/card.component';
+
+@Component({
+  selector: 'app-home',
+  imports: [CardComponent],
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
+})
+export class HomeComponent {
+  cards = ['Tarjeta 1', 'Tarjeta 2', 'Tarjeta 3'];  
+  // 📌 Un array con los títulos de las tarjetas.
+
+  message = ''; 
+  // 📌 Variable donde guardaremos el mensaje recibido del hijo.
+
+  handleNotification(event: string) {
+    this.message = event;  
+    // 📌 Se ejecuta cuando una tarjeta emite el evento "notify".
+  }
+}

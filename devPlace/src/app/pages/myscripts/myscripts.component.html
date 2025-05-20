@@ -1,0 +1,37 @@
+<div class="scripts-container">
+  @if(isLoading){
+    <h2>Cargando tus scripts</h2>
+  }@else {
+  <h2>Mis scripts</h2>
+  }
+  @if (errorMessage) {
+    <p class="error">{{ errorMessage }}</p>
+  } @else {
+    @if (!isLoading && scripts.length === 0) {
+      <p>No tienes scripts todavía.</p>
+    } @else {
+      @for ( script of scripts; track script.id) {
+        <div class="script-card">
+            <h3>{{ script.title }}</h3>
+            <p>{{ script.description }}</p>
+          @if (script.price === 0) {
+            <span>Gratis</span>
+            <button class="btn-download"
+                    (click)="descargarScript(script.id, script.title)">
+              Descargar
+            </button>
+          } @else {
+            <span>Precio: {{ script.price }} €</span>
+            <button class="btn-buy" (click)="descargarScript(script.id, script.title)">Comprar</button>
+          }
+          <div class="actions">
+            <button class="btn-download" (click)="onEditScript(script.id)">Editar
+            </button>
+            <button class="btn-download" (click)="onDeleteScript(script.id)">Eliminar
+            </button>
+          </div>
+        </div>
+      }
+    }
+  }
+</div>

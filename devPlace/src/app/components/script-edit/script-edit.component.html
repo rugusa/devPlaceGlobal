@@ -1,0 +1,75 @@
+<div class="container form-upload-container">
+  <h2>Editar Script</h2>
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Título</label>
+      <input
+        id="title"
+        name="title"
+        type="text"
+        required
+        [(ngModel)]="title"
+        class="form-control"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Descripción</label>
+      <textarea
+        id="description"
+        name="description"
+        required
+        [(ngModel)]="description"
+        class="form-control"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="price">Precio (€)</label>
+      <input
+        id="price"
+        name="price"
+        type="number"
+        min="0"
+        required
+        [(ngModel)]="price"
+        class="form-control"
+      />
+    </div>
+
+    <!-- <div class="form-group">
+      <label for="createdAt">Fecha de creación</label>
+      <input
+        id="createdAt"
+        name="createdAt"
+        type="datetime-local"
+        required
+        [(ngModel)]="createdAt"
+        class="form-control"
+      />
+    </div> -->
+
+    <div class="form-group">
+      <label for="file">Subir nuevo archivo (opcional)</label>
+      <input
+        id="file"
+        name="file"
+        type="file"
+        (change)="onFileSelected($event)"
+        class="form-control"
+      />
+    </div>
+
+    <div class="button-group">
+      <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="router.navigate(['/myscripts'])"
+      >
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,9 @@
+pdf para el dia de la presentación, video de 2 minutos para la presentación, primero enseñar video y después enseñar la app en directo
+video sin voz, enseñando las secciones y funcionalidades, hablando nosotros en persona en el momento explicando
+
+seguir mas o menos mismo orden en la presentación que en la memoria, (sin índice de proyecto) portada, justificación y objetivos del proyecto, explicar como en la memoria apps que se parecen etc
+puntos a tener en cuenta:
+	no explicar lo q es symfony Docker etc, solo explicar pues yo he usado en el back symfony, en front angular etc
+después ya explicar problemas, el back me tarda media hora en responder, etc
+conclusiones
+-----video de 2 mins de la presentacion----

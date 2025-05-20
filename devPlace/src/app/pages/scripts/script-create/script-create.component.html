@@ -1,0 +1,37 @@
+<div class="container form-upload-container">
+  <h2>Subir nuevo Script</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Título</label>
+      <input id="title" class="form-control" [(ngModel)]="title" name="title" required>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Descripción</label>
+      <textarea id="description" class="form-control" [(ngModel)]="description" name="description" required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="price">Precio</label>
+      <input id="price" class="form-control" type="number" [(ngModel)]="price" name="price" min="0" required>
+    </div>
+
+    <!-- <div class="form-group">
+      <label for="createdAt">Fecha de creación</label>
+      <input id="createdAt" class="form-control" type="datetime-local" [(ngModel)]="createdAt" name="createdAt" required>
+    </div> -->
+
+    <div class="form-group">
+      <label for="file">Archivo o .zip</label>
+      <input id="file" type="file" class="form-control-file" (change)="onFileSelected($event)" accept="*/*" required>
+    </div>
+
+    <button class="btn btn-primary " type="submit" [disabled]="isLoading">
+      @if(isLoading){
+      <span @if(isLoading)>Cargando…</span>
+      }@else {
+      <span>Subir Script</span>
+      }
+    </button>
+  </form>
+</div>

@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Script index{% endblock %}
+
+{% block body %}
+    <h1>Script index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>FilePath</th>
+                <th>CreatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for script in scripts %}
+            <tr>
+                <td>{{ script.id }}</td>
+                <td>{{ script.title }}</td>
+                <td>{{ script.description }}</td>
+                <td>{{ script.price }}</td>
+                <td>{{ script.filePath }}</td>
+                <td>{{ script.createdAt ? script.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_script_show', {'id': script.id}) }}">show</a>
+                    <a href="{{ path('app_script_edit', {'id': script.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_script_new') }}">Create new</a>
+{% endblock %}

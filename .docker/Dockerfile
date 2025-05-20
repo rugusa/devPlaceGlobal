@@ -19,6 +19,10 @@ RUN mv composer.phar /usr/local/bin/composer
 RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | bash
 RUN apt-get -y install symfony-cli
 
+# Cambia el DocumentRoot de Apache a /var/www/html/public
+RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
+RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/apache2.conf
+
 #ENV APACHE_DOCUMENT_ROOT /www/html
 #ENV APACHE_LOG_DIR /var/log/apache2
 #ENV APACHE_RUN_USER www-data

@@ -1,28 +1,41 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Script } from '../../services/script.service';
+import { ScriptService } from '../../services/script.service';
 @Component({
   selector: 'app-scripts',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './scripts.component.html',
-  styleUrl: './scripts.component.css'
+  styleUrls: ['./scripts.component.css'],
 })
-export class ScriptsComponent {
-  resources: any[] = [
-    { title: 'Script 1', description: 'Descripción del script 1', price: 0 },
-    { title: 'Script 2', description: 'Descripción del script 2', price: 5 },
-    { title: 'Script 3', description: 'Descripción del script 3', price: 10 },
-    { title: 'Script 4', description: 'Descripción del script 3', price: 0 },
-    { title: 'Script 5', description: 'Descripción del script 3', price: 7 },
-    { title: 'Script 6', description: 'Descripción del script 3', price: 15 },
-    { title: 'Script 7', description: 'Descripción del script 3', price: 20 },
-    { title: 'Script 8', description: 'Descripción del script 3', price: 0 },
-    { title: 'Script 9', description: 'Descripción del script 3', price: 5 },
-  ];
+export class ScriptsComponent implements OnInit {
+  scripts: Script[] = [];
+  errorMessage = '';
 
-  constructor() { }
+  constructor(private scriptService: ScriptService) {}
 
   ngOnInit(): void {
-    // Aquí se haría una llamada HTTP al backend para obtener los scripts
+    this.scriptService.getScripts().subscribe({
+      next: (res) => (this.scripts = res.data),
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'Error al cargar los scripts';
+      },
+    });
   }
 
+  descargarScript(id: number, title: string) {
+    this.scriptService.downloadScript(id).subscribe({
+      next: (blob: Blob | MediaSource) => {
+        const a = document.createElement('a');
+        const url = URL.createObjectURL(blob);
+        a.href = url;
+        a.download = `${title}.zip`;
+        a.click();
+        URL.revokeObjectURL(url);
+      },
+      error: () => alert('No se pudo descargar el script.'),
+    });
+  }
 }

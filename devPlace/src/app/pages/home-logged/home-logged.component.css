@@ -1,0 +1,90 @@
+/* Contenedor principal */
+.home-container {
+    padding: 60px 20px;
+    color: white;
+  }
+  
+  .principal {
+    background: linear-gradient(to right, #007bff, #6610f2);
+    padding: 80px 20px;
+    border-radius: 30px;
+    text-align: center;
+    margin-bottom: 60px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .principal-content h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: white;
+  }
+  
+  .principal-content h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    font-weight: 400;
+    color: #e0e0e0;
+  }
+  
+  .principal-content p {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    color: #f1f1f1;
+  }
+  
+  
+  
+  /* Sección de beneficios */
+  .benefits {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+  
+  .benefits h2 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+    color: #fff;
+  }
+  
+  .benefit-item {
+    background-color: #fff;
+    color: #333;
+    border-radius: 20px;
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 700px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .benefit-item:hover {
+    transform: translateY(-5px);
+  }
+  
+  .benefit-item h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #007bff;
+  }
+  
+  .benefit-item p {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* Última sección de llamada a la acción */
+  .home-container > section:last-child {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  
+  .home-container > section:last-child h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+  
+  .home-container > section:last-child p {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+  }
+  

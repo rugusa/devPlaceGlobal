@@ -1,5 +1,6 @@
 <div class="scripts-container">
-    @for ( resource of resources; track resource){
+    @if(scripts.length > 0){
+    @for ( resource of scripts; track resource.id){
     <div class="script-card">
         <h3>{{ resource.title }}</h3>
         <p>{{ resource.description }}</p>
@@ -7,14 +8,17 @@
         <span>Gratis</span>
         } @else {
         <span>Precio: {{ resource.price }}€</span>
-
         }
-
         @if(resource.price === 0){
-        <button class="btn-download">Descargar</button>
+        <button class="btn-download" (click)="descargarScript(resource.id, resource.title)">Descargar</button>
         }@else {
-        <button class="btn-buy">Comprar</button>
+        <button class="btn-buy" (click)="descargarScript(resource.id, resource.title)">Comprar</button>
         }
     </div>
+    }
+    }@else if (errorMessage) {
+    <p>{{ errorMessage }}</p>
+    } @else {
+    <p>Cargando scripts...</p>
     }
 </div>
