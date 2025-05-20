@@ -81,7 +81,7 @@ createScript(formData: FormData): Observable<any> {
 
   deleteScript(id: number): Observable<{ status: string; message: string }> {
     return this.http.post<{ status: string; message: string }>(
-      `${this.apiUrl}/${id}`,
+      `${this.apiUrl}/script/${id}`,
       {},
       { headers: this.authHeaders() }
     );
